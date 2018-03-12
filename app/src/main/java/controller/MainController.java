@@ -1,5 +1,7 @@
 package controller;
 
+import org.greenrobot.eventbus.EventBus;
+
 import entity.OpenRate;
 import network.RateService;
 import network.RetrofitController;
@@ -28,6 +30,9 @@ public class MainController {
                 OpenRate openRate = response.body();
 
                 GlobalConstant.glLog("Open Rate result " + openRate);
+
+                // publish result to everybody who's listening OpenRate.class changes
+                EventBus.getDefault().post(openRate);
             }
 
             @Override
